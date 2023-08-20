@@ -9,10 +9,10 @@ class FrameHandler
 {
     public:
         template <size_t RFN, size_t SN>
-        FrameHandler(Can_frame (&raw_frames)[RFN], Signal_decode (&signals)[SN])
+        FrameHandler(Can_frame (&raw_frames)[RFN], signal_decode (&signals)[SN])
         : raw_frames{raw_frames}, rf_length{RFN}, signals{signals}, sig_length{SN} {}
         
-        struct Can_frame framenull = {0x0, 0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+        struct can_frame framenull = {0x0, 0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 
         void print_buffer()
         {
@@ -37,7 +37,7 @@ class FrameHandler
         }
 
 
-        int frame_wr(struct Can_frame frame)
+        int frame_wr(struct can_frame frame)
         //write frame to frames array if id matches one of the entries
         {
             int frame_id = check_id(frame.can_id);
@@ -49,7 +49,7 @@ class FrameHandler
             return 0;
         }
 
-        struct Can_frame frame_rd(int32_t can_id)
+        struct can_frame frame_rd(int32_t can_id)
         //return frame with identifyer equal to can_id
         {
             int frame_id = check_id(can_id);
@@ -64,8 +64,8 @@ class FrameHandler
         //return signal of length between 9 and 16 bits
         {
             
-            Signal_decode signal_template = signals[signal]; //retrieve decoding template
-            Can_frame raw_frame = frame_rd(signal_template.signal_frame); //retrieve frame that contains the signal
+            signal_decode signal_template = signals[signal]; //retrieve decoding template
+            can_frame raw_frame = frame_rd(signal_template.signal_frame); //retrieve frame that contains the signal
 
             uint32_t signal_raw = raw_frame.data[signal_template.start_byte];
 
@@ -79,9 +79,9 @@ class FrameHandler
 
     private:
 
-        Can_frame *raw_frames;
+        can_frame *raw_frames;
         size_t rf_length;
-        Signal_decode *signals;
+        signal_decode *signals;
         size_t sig_length;
 
         int check_id(uint32_t can_id)
