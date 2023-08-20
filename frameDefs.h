@@ -1,14 +1,13 @@
 #include <stdint.h>
 
-//CAN frame definition - uncomment if not using arduino-mcp2515/mcp2515.cpp
-//typedef unsigned long __u32;
-//typedef __u32 canid_t;
+typedef unsigned long __u32;
+typedef __u32 canid_t;
 
-//struct can_frame {
-//    canid_t can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
-//    uint8_t  can_dlc; /* Data Length Code (number of data bytes)*/
-//    uint8_t  data[8];
-//};
+struct can_frame {
+    canid_t can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
+    uint8_t  can_dlc; /* Data Length Code (number of data bytes)*/
+    uint8_t  data[8];
+};
 
 struct signal_decode {
     uint32_t signal_frame;
